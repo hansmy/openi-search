@@ -33,9 +33,12 @@ GET     /user/:username         controllers.UserApiController.getUserByName(user
 
 
 
-GET     /                           controllers.MainController.index()
+GET     /                           controllers.MainController.index
 GET     /message                    controllers.MessageController.getMessage()
 GET     /assets/javascripts/routes  controllers.MessageController.javascriptRoutes()
+
+#Indexer Routes
+GET	 	/indexer					@controllers.IndexerController.startIndexing
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

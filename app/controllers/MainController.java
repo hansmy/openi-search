@@ -9,4 +9,9 @@ public class MainController extends Controller {
         return ok(views.html.index.render("Hello from Java"));
     }
     
+    public static Result startIndexing() {
+        return ok(views.html.index.render("Hello from Java"));
+    }
+    
+    
 }

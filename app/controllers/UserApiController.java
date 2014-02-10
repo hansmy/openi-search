@@ -1,7 +1,6 @@
 package controllers;
 
 import api.*;
-
 import com.wordnik.swagger.core.*;
 import com.wordnik.swagger.annotations.*;
 
