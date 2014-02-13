@@ -14,9 +14,11 @@ import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuthNoRedirect;
 
 import actors.IndexerActor;
+import actors.SolrActor;
 import actors.messages.StartIndexerEvent;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.routing.FromConfig;
 import play.libs.Akka;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -25,6 +27,7 @@ public class IndexerController extends Controller {
      
     
     private final ActorRef ref= Akka.system().actorOf(Props.create(IndexerActor.class),"Indexer");
+    private final  ActorRef router =  Akka.system().actorOf(Props.create(SolrActor.class).withRouter(new FromConfig()), "myrouter1");
    // private final String appKey;
    // private final String appSecret;
     
@@ -45,23 +48,7 @@ public class IndexerController extends Controller {
          System.out.println("2. Click \"Allow\" (you might have to log in first)");
          System.out.println("3. Copy the authorization code.");
          String code = "m-sR86cTLzsAAAAAAAAAAXBjQHdM5VsfFIAFQMM4X7Y".trim();
-         //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		
-			
-		
-
-         // This will fail if the user enters an invalid authorization code.
-        /* DbxAuthFinish authFinish = null;
-		try {
-			authFinish = webAuth.finish(code);
-			System.out.println(authFinish);
-			System.out.println(authFinish.accessToken);
-		} catch (DbxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		System.out.println("I saw this line: "+code);
+   
          DbxClient client = new DbxClient(config, "Ktqkt7NkvmEAAAAAAAAAAaxQVS8fp-pIb18SyuMEyGEi4P_RsWkhuiHv64fAlJZN");
 
          try {

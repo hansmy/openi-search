@@ -2,7 +2,7 @@ package actors.messages;
 
 import com.dropbox.core.DbxClient;
 
-public class StartIndexerEvent implements UserEvent {
+public class StartIndexerEvent implements IndexEvent {
 	private DbxClient client;
 	public StartIndexerEvent(DbxClient client) {
 		super();
@@ -13,6 +13,11 @@ public class StartIndexerEvent implements UserEvent {
 	}
 	public void setClient(DbxClient client) {
 		this.client = client;
+	}
+	@Override
+	public String getUser() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 
