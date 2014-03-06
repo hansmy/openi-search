@@ -15,7 +15,8 @@ import org.apache.solr.common.SolrInputDocument;
 
 public class DropBoxHelper {
 	private DbxClient client;
-	private static final String REGEX_BINARY_TYPES_NOT_SUPPORTED=".*(jpg|jpeg|png|tiff|tif|bmp|mov|bin)$";
+	private static final String REGEX_BINARY_TYPES_NOT_SUPPORTED = ".*(jpg|jpeg|png|tiff|tif|bmp|mov|bin)$";
+
 	public DropBoxHelper(DbxClient client) {
 		this.client = client;
 
@@ -23,7 +24,7 @@ public class DropBoxHelper {
 
 	// KeSzp-3nUcIAAAAAAAAAAdKELlVJVhPgo3_Olg0jimM
 	public DbxDelta<DbxEntry> processFiles(String cursor) {
-		
+
 		DbxDelta<DbxEntry> result = null;
 		try {
 			result = client.getDelta(cursor);
@@ -35,7 +36,7 @@ public class DropBoxHelper {
 		// while (true) {
 		cursor = result.cursor;
 		if (result.reset) {
-			System.out.println("Reset!");
+	//		System.out.println("Reset!");
 		}
 
 		// Avoid a tight loop by sleeping when there are no more changes.
@@ -56,33 +57,39 @@ public class DropBoxHelper {
 
 	public SolrInputDocument pipeToSolr(DbxDelta.Entry entry) {
 		SolrInputDocument doc = null;
-		
-			if (entry.metadata instanceof DbxEntry) {
-				DbxEntry real = (DbxEntry) entry.metadata;
 
-				DbxEntry.File file = real.asFile();
-				System.out.println(file.toString());
+		if (entry.metadata instanceof DbxEntry) {
+			DbxEntry real = (DbxEntry) entry.metadata;
 
-				System.out.println("Added or modified: " + entry.lcPath);
+			DbxEntry.File file = real.asFile();
+			System.out.println(file.toString());
 
-				String title = file.path.replaceAll(
-						"/.*\\/([^\\/\\.]*)\\.?.*/", "$1");
-				if(isSupported(file.path)){
+			System.out.println("Added or modified: " + entry.lcPath);
+
+			String title = file.path.replaceAll("/.*\\/([^\\/\\.]*)\\.?.*/",
+					"$1");
+			if (isSupported(file.path)) {
 				DateFormat df1 = new SimpleDateFormat(
 						"yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 				String dateFormat = df1.format(file.clientMtime);
 				doc = new SolrInputDocument();
-				doc.setField("id", entry.lcPath);
-				doc.setField("title", title);
-				doc.setField("rev", file.rev);
-				doc.setField("when", dateFormat);
-				doc.setField("path", file.path);
-				doc.setField("icon", file.iconName);
-				doc.setField("size", file.numBytes);
+				doc.setField("literal.id", entry.lcPath);
+				doc.setField("literal.title", title);
+				doc.setField("literal.rev", file.rev);
+				doc.setField("literal.when", dateFormat);
+				doc.setField("literal.path", file.path);
+				doc.setField("literal.icon", file.iconName);
+				doc.setField("literal.size", file.numBytes);
+				try {
+					DbxUrlWithExpiration urlEx = client
+							.createTemporaryDirectUrl(entry.lcPath);
+					doc.setField("literal.links", urlEx.url.toString());
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
-				// mime-type can be infered from path
 
-			
+			}
+			// mime-type can be infered from path
 
 		}
 		return doc;
@@ -90,7 +97,7 @@ public class DropBoxHelper {
 	}
 
 	private boolean isSupported(String path) {
-		
+
 		return !path.matches(REGEX_BINARY_TYPES_NOT_SUPPORTED);
 	}
 }

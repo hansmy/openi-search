@@ -78,8 +78,10 @@ public class IndexWorker extends UntypedActor {
 
 					DbxDelta<DbxEntry> result = null;
 					do {
+						System.out.println(eventCursor.getCursor());
 						// here should be longpoll delta
 						result = dbhelper.processFiles(eventCursor.getCursor());
+						System.out.println(result.entries.size());
 						if (result.entries.size() > 0) {
 							this.indexingSolr(result.entries);
 						}

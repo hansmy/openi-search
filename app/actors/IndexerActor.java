@@ -22,7 +22,7 @@ public class IndexerActor extends UntypedActor {
 					Props.create(IndexWorker.class, dropBoxHelper), "worker");
 			//indexer.wait(1000);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
