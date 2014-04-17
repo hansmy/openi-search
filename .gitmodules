@@ -1,0 +1,3 @@
+[submodule "demo-search"]
+	path = demo-search
+	url = git@github.com:hansmy/demo-search.git
