@@ -16,15 +16,7 @@ public class AuthorisationFilter implements SwaggerSpecFilter {
         if (isAuthorized) {
             return true;
         } else {
-            if (operation.method().equals("GET")) {
-                if (api.path().startsWith("/store")) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 

@@ -9,18 +9,6 @@ GET     /api-docs               controllers.ApiHelpController.getResources
 
 # OPTIONS /*wholepath           controllers.PetApiController.getOptions(wholepath)
 
-GET     /api-docs/pet           controllers.ApiHelpController.getResource(path = "/pet")
-POST    /pet                    controllers.PetApiController.addPet
-PUT     /pet                    controllers.PetApiController.updatePet
-GET     /pet/findByStatus       controllers.PetApiController.findPetsByStatus(status)
-GET     /pet/findByTags         controllers.PetApiController.findPetsByTags(tags)
-GET     /pet/:id                controllers.PetApiController.getPetById(id)
-
-GET     /api-docs/store         controllers.ApiHelpController.getResource(path = "/store")
-POST    /store/order            controllers.StoreApiController.placeOrder
-GET     /store/order/:orderId   controllers.StoreApiController.getOrderById(orderId)
-DELETE  /store/order/:orderId   controllers.StoreApiController.deleteOrder(orderId)
-
 GET     /api-docs/user          controllers.ApiHelpController.getResource(path = "/user")
 POST    /user                   controllers.UserApiController.createUser
 POST    /user/createWithArray   controllers.UserApiController.createUsersWithArrayInput
@@ -34,10 +22,9 @@ GET     /user/:username         controllers.UserApiController.getUserByName(user
 
 
 GET     /                           controllers.MainController.index
-GET     /message                    controllers.MessageController.getMessage()
-GET     /assets/javascripts/routes  controllers.MessageController.javascriptRoutes()
 
 #Indexer Routes
+GET     /api-docs/indexer           controllers.ApiHelpController.getResource(path = "/indexer")
 GET	 	/indexer					@controllers.IndexerController.startIndexing
 
 # Map static resources from the /public folder to the /assets URL path
