@@ -9,18 +9,6 @@ GET     /api-docs               controllers.ApiHelpController.getResources
 
 # OPTIONS /*wholepath           controllers.PetApiController.getOptions(wholepath)
 
-GET     /api-docs/user          controllers.ApiHelpController.getResource(path = "/user")
-POST    /user                   controllers.UserApiController.createUser
-POST    /user/createWithArray   controllers.UserApiController.createUsersWithArrayInput
-POST    /user/createWithList    controllers.UserApiController.createUsersWithListInput
-GET     /user/login             controllers.UserApiController.loginUser(username,password)
-GET     /user/logout            controllers.UserApiController.logoutUser
-PUT     /user/:username         controllers.UserApiController.updateUser(username)
-DELETE  /user/:username         controllers.UserApiController.deleteUser(username)
-GET     /user/:username         controllers.UserApiController.getUserByName(username)
-
-
-
 GET     /                           controllers.MainController.index
 
 #Indexer Routes
