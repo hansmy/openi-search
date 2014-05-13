@@ -16,5 +16,6 @@ GET     /api-docs/indexer           controllers.ApiHelpController.getResource(pa
 GET	 	/indexer					@controllers.IndexerController.startIndexing
 
 # Map static resources from the /public folder to the /assets URL path
+GET     /demosearch/           		staticDir:demosearch/dist
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /webjars/*file              controllers.WebJarAssets.at(file)
