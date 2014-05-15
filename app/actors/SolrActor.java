@@ -91,6 +91,7 @@ public class SolrActor extends UntypedActor {
 						.toString());
 				req.setParam("literal.size", doc.getFieldValue("literal.size")
 						.toString());
+				req.setParam("literal.url", doc.getFieldValue("literal.links").toString());
 
 				req.setParam("uprefix", "attr_");
 				req.setParam("fmap.content", "attr_content");
