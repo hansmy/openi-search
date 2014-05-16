@@ -23,6 +23,7 @@ import java.util.Locale;
 
 
 
+
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
 import com.dropbox.core.DbxClient;
@@ -40,6 +41,7 @@ import actors.messages.StartIndexerEvent;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.routing.FromConfig;
+import play.Play;
 import play.libs.Akka;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -57,8 +59,9 @@ public class IndexerController extends Controller {
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid API Key")})
 	public  Result startIndexing() {
     	//this it will index just one user
-		 final String APP_KEY = "do94s6laa15zhtp";
-         final String APP_SECRET = "d055a137s7xjfjg";
+    	
+		 final String APP_KEY = Play.application().configuration().getString("dropbox.key");
+		 final String APP_SECRET = Play.application().configuration().getString("dropbox.secret");
 
          DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
 
@@ -67,13 +70,8 @@ public class IndexerController extends Controller {
          DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 
          // Have the user sign in and authorize your app.
-         String authorizeUrl = webAuth.start();
-         //System.out.println("1. Go to: " + authorizeUrl);
-         System.out.println("2. Click \"Allow\" (you might have to log in first)");
-         System.out.println("3. Copy the authorization code.");
-         String code = "m-sR86cTLzsAAAAAAAAAAXBjQHdM5VsfFIAFQMM4X7Y".trim();
-   
-         DbxClient client = new DbxClient(config, "Ktqkt7NkvmEAAAAAAAAAAaxQVS8fp-pIb18SyuMEyGEi4P_RsWkhuiHv64fAlJZN");
+       
+         DbxClient client = new DbxClient(config,Play.application().configuration().getString("dropbox.user") );
 
          try {
 			System.out.println("Linked account: " + client.getAccountInfo().displayName);
